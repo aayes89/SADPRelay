@@ -57,6 +57,7 @@ public class SADPRelay {
 
     public static void main(String[] args) throws Exception {
         if (args.length < 1) {
+            System.out.println("SADP Relay tunnel for Hikvision softwares\nBy Allan Ayes (Slam)\nVersion 0.0.1 (2025)\n\n");
             System.out.println("Usage: java SADPRelay mode [relayHost relayPort multicastGroup multicastPort token]");
             System.out.println("Modes: relay, transmitter, receiver\n\n");
             System.out.println("Relay: java SADPRelay relay 0.0.0.0 12345 239.255.255.250 37020 mytoken\n"
