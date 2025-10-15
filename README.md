@@ -67,6 +67,39 @@ Puede copiar el código en un proyecto nuevo con IDE Java de su preferencia o di
 - El relay actúa como un passthrough bidireccional, sin alterar la carga útil.<br>
 - No se soportan múltiples clientes simultáneos; está diseñado para un transmisor y un receptor.<br>
 
+:wrench: Áreas de mejora
+
+Buffers y performance<br>
+   - Usar un pool de buffers (ByteBuffer) reutilizables para evitar muchas asignaciones y desperdicio de memoria.
+   - Las copias las realizo con (System.arraycopy), pero podría usar ByteBuffer.wrap() y slices para reducir overhead en el relay.
+
+Excepciones<br>
+  - Separar IOException y RuntimeException para tener logs más claros.
+  - Evitar imprimir todo t.getMessage() sin stacktrace en casos críticos; para debugging intenso mejor usar t.printStackTrace() o logErr(t).
+
+Multicast en Linux
+  - El listener multicast es bloqueante (sock.receive(p)) y se ejecuta en múltiples hilos.
+  - Usar Selector con DatagramChannel no bloqueante para reducir hilos.
+
+Heartbeat y REGISTER
+  - Los envío cada 5-10s fijo. (Añadir jitter aleatorio para evitar sincronización de picos si hay muchos clientes).
+  - Podría unificar REGISTER y HEARTBEAT en un solo paquete con flag tipo role|timestamp|token para simplificar parsing.
+
+Seguridad
+  - Token es opcional y en texto plano. Pensando en usar HMAC-SHA256 con timestamp para evitar replay attacks si se va a usar en redes no confiables.
+  - Validación de port en relay y transmitter (correcto), añadir también a InetAddress (evitar 0.0.0.0 desde fuera de LAN).
+
+Shutdown más limpio
+  - Actualmente running = false y shutdown hooks, pero algunos hilos bloqueantes en receive() tardan en salir.
+  - Usar socket.close() dentro de shutdown hook para forzar salida inmediata.
+
+Logs
+  - log() y logErr() imprimen todo en stdout/stderr. Para despliegues largos mejor usar un logger con rotación de archivos y niveles (INFO/DEBUG/ERROR).
+
+Compatibilidad Android (Termux)
+  - Funciona bien porque Termux soporta DatagramSocket y MulticastSocket (de momento).
+  - Consideraré los permisos de red en Android: INTERNET y CHANGE_NETWORK_STATE (no son necesarios de momento) salvo si se necesitara multicast en algunas interfaces.
+
 📜 Licencia
 
 Este proyecto se distribuye bajo licencia MIT. Consulta el archivo LICENSE para más detalles.
