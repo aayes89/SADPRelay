@@ -12,6 +12,7 @@ Este programa actúa como un bridge entre el segmento de red donde se encuentran
 - Compatible con redes multicast (239.255.255.250:37020 por defecto).
 - Latencia mínima gracias a forwarding directo sin procesamiento adicional.
 - No modifica el contenido del paquete, solo adjunta y restaura puertos origen/destino para mantener compatibilidad con el protocolo SADP original.
+- Soporte para Windows, Linux y Android nativo.
 
 🧭 Modos de operación
 
