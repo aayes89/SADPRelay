@@ -84,9 +84,7 @@ public class SADPRelay {
             System.exit(1);
 
         }
-        // test only
-        //args = new String[]{"receiver", "cumxtv.ddns.net", "12345", "239.255.255.250", "37020", "mytoken.2025"};
-
+       
         // defaults
         String mode = (args.length > 0) ? args[0] : "";
         String relayHost = DEF_RELAY_HOST;
