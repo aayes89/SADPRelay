@@ -20,9 +20,9 @@ SADPRelay se compone de tres modos:
 
 relay: punto intermedio que recibe tráfico y lo retransmite entre transmisor y receptor.
 
-receiver: corre en la red local de las cámaras. Escucha multicast SADP y reenvía al relay.
+receiver: corre en el equipo local. Escucha el multicast SADP vía relay del equipo remoto.
 
-transmitter: corre en la máquina remota. Recibe desde el relay y retransmite a la instancia SADP local.
+transmitter: corre en la máquina remota. Captura las cámaras en cada subred a la que esté conectado y envía al relay.
 
 🧪 Ejemplos de uso
 
